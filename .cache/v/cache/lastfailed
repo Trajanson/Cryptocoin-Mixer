@@ -1,6 +1,5 @@
 {
   "tests/test_bootstrapper.py::BootstrapperTestCase::test_bootstrapper": true,
-  "tests/test_bootstrapper.py::BootstrapperTestCase::test_seed_fund": true,
   "tests/test_flaskr.py::test_first": true,
   "tests/test_utils/test_flaskr.py::test_first": true,
   "tests/utils/test_flaskr.py::test_first": true

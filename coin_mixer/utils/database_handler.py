@@ -1,4 +1,5 @@
 import redis
+import math
 
 from coin_mixer.constants import Config
 from coin_mixer.schemas import Address_Schema as schema
@@ -17,20 +18,32 @@ class Database_Handler(object):
     =========
     """
 
-    def store_new_decreasing_address(self, address, baseline_value, value=0):
+    def store_new_decreasing_address(self, address, baseline_value, value=0,
+                                     isForClientInput=False,
+                                     isForClientOutput=False):
         self.store_new_address(address, baseline_value, value,
-                               isOnlyDecreasing=True, isOnlyIncreasing=False)
+                               isOnlyDecreasing=True, isOnlyIncreasing=False,
+                               isForClientInput=isForClientInput,
+                               isForClientOutput=isForClientOutput)
 
-    def store_new_increasing_address(self, address, baseline_value, value=0):
+    def store_new_increasing_address(self, address, baseline_value, value=0,
+                                     isForClientInput=False,
+                                     isForClientOutput=False):
         self.store_new_address(address, baseline_value, value,
-                               isOnlyDecreasing=False, isOnlyIncreasing=True)
+                               isOnlyDecreasing=False, isOnlyIncreasing=True,
+                               isForClientInput=isForClientInput,
+                               isForClientOutput=isForClientOutput)
 
     def store_new_address(self, address, baseline_value, value=0,
-                          isOnlyDecreasing=False, isOnlyIncreasing=False):
-        if isOnlyDecreasing is False and isOnlyIncreasing is False:
+                          isOnlyDecreasing=False, isOnlyIncreasing=False,
+                          isForClientInput=False, isForClientOutput=False):
+        if isOnlyDecreasing is True and isOnlyIncreasing is True:
             raise ValueError('Address cannot be increasing and decreasing')
 
-        if value <= 0 or baseline_value <= 0:
+        if isForClientInput is True and isForClientOutput is True:
+            raise ValueError('Input address cannot be reused for output')
+
+        if value < 0 or baseline_value < 0:
             raise ValueError('Value or intended value cannot be less than 0')
 
         addressHash = {schema.FIELD_BALANCE: value,
@@ -47,15 +60,36 @@ class Database_Handler(object):
         elif isOnlyIncreasing is True:
             pipe.sadd(schema.SET_ONLY_INCREASING, address)
 
+        if isForClientInput is True:
+            pipe.sadd(schema.SET_CLIENT_INPUT, address)
+        else:
+            pipe.sadd(schema.SET_CLIENT_OUTPUT, address)
+
         pipe.execute()
 
-    def remove_address_from_ecosystem(self):
-        pass
+    def remove_address_from_ecosystem(self, address):
+        value_at_address = self.db.hget(address, schema.FIELD_BALANCE) or 0
+        is_output_address = self.db.sismember(schema, schema.SET_CLIENT_OUTPUT,
+                                              address)
+
+        if math.floor(value_at_address) > 0 and is_output_address is False:
+            raise ValueError('Cannot remove an internal address with coins')
+
         pipe = self.db.pipeline()
+        pipe.delete(address)
+        pipe.incrby(schema.KEY_TOTAL_BALANCE, -1*math.floor(value_at_address))
+        pipe.srem(schema.SET_ONLY_DECREASING, address)
+        pipe.srem(schema.SET_ONLY_INCREASING, address)
+        pipe.srem(schema.SET_ECOSYSTEM, address)
+        pipe.srem(schema.SET_CLIENT_INPUT, address)
+        pipe.srem(schema.SET_CLIENT_OUTPUT, address)
         pipe.execute()
 
     def total_value_in_ecosystem(self):
-        return self.db.get(schema.KEY_TOTAL_BALANCE)
+        return int(self.db.get(schema.KEY_TOTAL_BALANCE))
+
+    def total_num_addresses_in_ecosystem(self):
+        return int(self.db.scard(schema.SET_ECOSYSTEM))
 
     def delete_database(self):
         if self.is_test_db is False:

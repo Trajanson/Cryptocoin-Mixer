@@ -28,6 +28,13 @@ class BootstrapperTestCase(unittest.TestCase):
         actual = self.db.total_value_in_ecosystem()
         assert actual == expected
 
+    def test_address_count(self):
+        expected = HyperParameters.NUM_INJECTION_ADDRESSES
+        expected += HyperParameters.NUM_INITIAL_ADDRESSES
+
+        actual = self.db.total_num_addresses_in_ecosystem()
+        assert actual == expected
+
     def tearDown(self):
         self.db.delete_database()
 

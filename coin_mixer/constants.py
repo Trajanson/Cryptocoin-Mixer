@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class HyperParameters(object):
     # Average number of addresses that will
     # engage in transactions per epoch
@@ -11,6 +14,23 @@ class HyperParameters(object):
     NUM_INITIAL_ADDRESSES = 50
 
     NUM_COINS_GIVEN_TO_NEW_ADDRESS = 50
+
+    """
+    FUNCTIONS FOR DEFINING POPULATION PARAMETERS
+    """
+
+    @staticmethod
+    def select_random_baseline_values(mean, std_dev, size):
+        values = np.random.normal(loc=mean, scale=std_dev, size=size)
+        return list(map(lambda value: max(value, 0), values))
+
+    @staticmethod
+    def calculate_std_dev_of_baselines(mean):
+        return HyperParameters.calculate_std_dev_of_baselines_alg1(mean)
+
+    @staticmethod
+    def calculate_std_dev_of_baselines_alg1(mean):
+        return (mean - 0) / 4
 
 
 class Constants(object):

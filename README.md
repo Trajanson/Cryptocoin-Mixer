@@ -21,3 +21,8 @@ TODO:
 - Formula for transactions
 - Formula for determining charges
 - Formula for adding nodes to ecosystem
+
+- When client deposits money, create a new node that sucks all the money in at once, set as compromised
+
+
+- Client input cannot be client output address
