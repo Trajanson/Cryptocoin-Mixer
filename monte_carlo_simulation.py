@@ -25,15 +25,15 @@ def engage_tumbler():
 
 
 def engage_transaction_engine():
-    epoch_length = HyperParameters.TUMBLER_EPOCH_LENGTH
+    epoch_length = HyperParameters.TRANSACTION_ENGINE_EPOCH_LENGTH
     threading.Timer(epoch_length, engage_tumbler).start()
-    
-    tumbler.generate_transactions()
+
+    transaction_enginer.execute_pending_transactions()
 
 
 def engage_mixer(time_duration=float("inf")):
     engage_tumbler()
-    # engage_transaction_engine()
+    engage_transaction_engine()
 
 
 engage_mixer()

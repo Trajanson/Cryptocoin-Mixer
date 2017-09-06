@@ -20,6 +20,9 @@ class HyperParameters(object):
     # In Seconds
     TUMBLER_EPOCH_LENGTH = 300
 
+    # In Seconds
+    TRANSACTION_ENGINE_EPOCH_LENGTH = 30
+
     """
     FUNCTIONS FOR DEFINING POPULATION PARAMETERS
     """

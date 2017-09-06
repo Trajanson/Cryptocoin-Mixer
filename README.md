@@ -16,7 +16,7 @@ https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
 
 
 TODO:
-- 
+- add watched inputs to redis
 
 
 
@@ -32,7 +32,7 @@ TODO:
 
 
 
-
+- increase likelihood of transaction based on charge
 
 
 

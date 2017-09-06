@@ -19,3 +19,7 @@ class Cryptocoin_API_Handler(object):
 
     def selectNewAddressName(self):
         return ''.join(choice(ascii_letters) for i in range(10))
+
+    def getBalanceAtAddress(self, address):
+        addressInfo = self.jobcoin_api.get_address_info(address)
+        return addressInfo['balance']
