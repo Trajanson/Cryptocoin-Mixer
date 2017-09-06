@@ -5,17 +5,26 @@ import time
 from coin_mixer.tumbler.tumbler import Tumbler
 from coin_mixer.utils.database_handler import Database_Handler as DB
 from coin_mixer.transaction_engine.transaction_engine import TransactionEngine
+from coin_mixer.output_monitor.output_monitor import OutputMonitor
 from coin_mixer.bootstrapper import run_bootstrapper
 from coin_mixer.constants import HyperParameters
+from coin_mixer.utils.mock_cryptocoin_api import MockCryptocoinAPI
+from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
+
 
 database = DB(test_db=True)
 database.delete_database()
 
-transaction_enginer = TransactionEngine(database)
+coin_interface = CryptocoinAPIHandler(MockCryptocoinAPI())
+
+output_monitor = OutputMonitor()
+
+transaction_enginer = TransactionEngine(database, coin_interface,
+                                        output_monitor)
 
 tumbler = Tumbler(database, transaction_enginer)
 
-run_bootstrapper(in_test=True)
+run_bootstrapper(coin_interface, database, output_monitor)
 
 
 def engage_tumbler():

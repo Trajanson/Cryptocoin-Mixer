@@ -109,6 +109,12 @@ class Database_Handler(object):
         return list(map(lambda address: self.get_address_data(address),
                         addresses))
 
+    def mark_address_as_compromised(self, address):
+        pipe = self.db.pipeline()
+        pipe.sadd(schema.SET_ONLY_DECREASING, address)
+        pipe.sadd(schema.SET_COMPROMISED, address)
+        pipe.execute()
+
     def get_address_data(self, address):
         pipe = self.db.pipeline()
 

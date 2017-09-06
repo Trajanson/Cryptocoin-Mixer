@@ -7,6 +7,10 @@ To Run Tests:
 `$ make test`
 
 
+# docker build -t cyrptocoin_mixer .
+# docker run -it cyrptocoin_mixer ./docker-entrypoint.sh
+
+
 `$ source activate CryptocoinMixer`
 
 https://speakerdeck.com/mitsuhiko/advanced-flask-patterns-1

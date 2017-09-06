@@ -59,26 +59,31 @@ class TransactionEngine(object):
             address_has_been_removed = True
 
         if address_has_been_removed is False:
-            transfer = self.transaction_strategy
-            sender, receiver, transfer_value = transfer
-            self.__notify_database_of_transaction(sender, receiver,
-                                                  transfer_value)
-            self.__notify_cryptocoin_handler_of_transaction(sender,
-                                                            receiver,
-                                                            transfer_value)
+            transfer = self.transaction_strategy.determine_transfer(
+                first_address_data, second_address_data)
+            if transfer is not None:
+                self.__execute_transfer(transfer)
 
-    def __notify_database_of_transaction(self, sender, receiver,
-                                         transfer_value):
+    def __execute_transfer(self, transfer):
+        sender, receiver, transfer_value = transfer
+        self.__notify_database_of_transfer(sender, receiver, transfer_value)
+        self.__notify_cryptocoin_handler_of_transfer(sender, receiver,
+                                                     transfer_value)
+
+    def __notify_database_of_transfer(self, sender, receiver,
+                                      transfer_value):
         self.db.increment_value_at_address(receiver, transfer_value)
         self.db.increment_value_at_address(sender, -1 * transfer_value)
 
         receiver_address_data = self.db.get_address_data(receiver)
-        if (receiver_address_data.isForClientOutput and
-           receiver_address_data.is_at_max_value()):
-            self.output_monitor.release_address(receiver)
+        if (receiver_address_data.isForClientOutput):
+            self.db.mark_address_as_compromised(sender)
 
-    def __notify_cryptocoin_handler_of_transaction(self, sender, receiver,
-                                                   transfer_value):
+            if receiver_address_data.is_at_max_value():
+                self.output_monitor.release_address(receiver)
+
+    def __notify_cryptocoin_handler_of_transfer(self, sender, receiver,
+                                                transfer_value):
         self.cryptocoin_handler.send_value(sender, receiver, transfer_value)
 
     def __form_transaction(self, first_address, second_address, timestamp):
@@ -98,8 +103,9 @@ class TransactionEngine(object):
 
     def __insert_transaction_to_queue(self, transaction):
         self.upcoming_transactions.append(transaction)
-        sorted(transaction, key=lambda transaction: transaction['timestamp'])
-
+        self.upcoming_transactions = (
+            sorted(self.upcoming_transactions,
+                   key=lambda transaction: int(transaction['timestamp'])))
         return self.upcoming_transactions
 
     def __remove_num_transactions_from_queue(self, num):

@@ -3,7 +3,6 @@ import requests
 
 
 class CryptocoinAPI():
-    # TODO: Error handling
     def get_address_info(self, address):
         url = f"http://jobcoin.gemini.com/undecided/api/addresses/{address}"
         cryptocoin_response = requests.get(url).json()

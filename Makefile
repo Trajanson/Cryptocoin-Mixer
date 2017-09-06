@@ -11,3 +11,9 @@ test:
 
 clean-pyc:
 		find . -name \*.pyc -delete
+
+build-docker:
+	docker build -t cyrptocoin_mixer .
+
+run-docker:
+	docker run -it cyrptocoin_mixer
