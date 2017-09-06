@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+import math
 from random import choice
 from string import ascii_letters
 
 
-class Cryptocoin_API_Handler(object):
+class CryptocoinAPIHandler(object):
     def __init__(self, jobcoin_api):
         self.jobcoin_api = jobcoin_api
 
@@ -22,4 +24,4 @@ class Cryptocoin_API_Handler(object):
 
     def getBalanceAtAddress(self, address):
         addressInfo = self.jobcoin_api.get_address_info(address)
-        return addressInfo['balance']
+        return int(float(addressInfo['balance']))

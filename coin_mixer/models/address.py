@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Address(object):
     def __init__(self, address, balance, baseline, isOnlyDecreasing=False,
                  isOnlyIncreasing=False, isForClientInput=False,

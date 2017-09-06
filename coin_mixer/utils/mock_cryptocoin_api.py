@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 
 
@@ -35,7 +36,7 @@ class MockCryptocoinAPI(object):
         :type amount: str
         :rtype: {str: str}
         """
-        if amount <= 0:
+        if float(amount) <= 0:
             return {"error": "AMOUNT MUST BE OVER 0"}
 
         elif fromAddress == "" or toAddress == "":

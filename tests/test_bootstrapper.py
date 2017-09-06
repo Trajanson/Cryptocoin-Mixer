@@ -10,6 +10,8 @@ import unittest
 
 from coin_mixer.utils.database_handler import Database_Handler
 from coin_mixer.constants import HyperParameters
+from coin_mixer.utils.mock_cryptocoin_api import MockCryptocoinAPI
+from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
 
 from coin_mixer.bootstrapper import run_bootstrapper
 
@@ -20,7 +22,9 @@ class BootstrapperTestCase(unittest.TestCase):
         self.db = Database_Handler(test_db=True)
         self.db.delete_database()
 
-        run_bootstrapper(in_test=True)
+        coin_interface = CryptocoinAPIHandler(MockCryptocoinAPI())
+
+        run_bootstrapper(coin_interface, self.db)
 
     def test_seed_fund(self):
         expected = HyperParameters.NUM_INJECTION_ADDRESSES * 50
@@ -39,7 +43,6 @@ class BootstrapperTestCase(unittest.TestCase):
     # for invalid input
     def test_random_addresses_for_valid_fields(self):
         self.db.get_random_ecosystem_addresses(3)
-
 
     def tearDown(self):
         self.db.delete_database()

@@ -1,21 +1,13 @@
+# -*- coding: utf-8 -*-
 from coin_mixer.constants import HyperParameters
-
-from coin_mixer.utils.mock_cryptocoin_api import MockCryptocoinAPI
 from coin_mixer.utils.cryptocoin_api import CryptocoinAPI
-from coin_mixer.utils.cryptocoin_api_handler import Cryptocoin_API_Handler
+from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
 from coin_mixer.utils.database_handler import Database_Handler
 from coin_mixer.tumbler.tumbler import Tumbler
 from coin_mixer.transaction_engine.transaction_engine import TransactionEngine
 
 
-def run_bootstrapper(in_test=True):
-    if in_test is True:
-        coin_interface = Cryptocoin_API_Handler(MockCryptocoinAPI())
-        database = Database_Handler(test_db=True)
-    else:
-        coin_interface = Cryptocoin_API_Handler(CryptocoinAPI())
-        database = Database_Handler(test_db=False)
-
+def run_bootstrapper(coin_interface, database):
     create_seed_fund_addresses(coin_interface, database)
     create_initial_ecosystem_addresses(coin_interface, database)
 
@@ -45,4 +37,7 @@ def create_initial_ecosystem_addresses(coin_interface, database):
 
 
 if __name__ == '__main__':
-    run_bootstrapper(in_test=False)
+    coin_interface = CryptocoinAPIHandler(CryptocoinAPI())
+    database = Database_Handler(test_db=False)
+
+    run_bootstrapper(coin_interface, database)
