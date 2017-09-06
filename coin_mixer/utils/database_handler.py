@@ -3,6 +3,7 @@ import math
 
 from coin_mixer.constants import Config
 from coin_mixer.schemas import Address_Schema as schema
+from coin_mixer.models.address import Address
 
 
 class Database_Handler(object):
@@ -96,6 +97,43 @@ class Database_Handler(object):
             raise PermissionError('Can only clear test database')
         else:
             self.db.flushdb()
+
+    def get_random_ecosystem_addresses(self, num_addresses):
+        addresses = self.db.SRANDMEMBER(schema.SET_ECOSYSTEM, num_addresses)
+        return list(map(lambda address: self.get_address_data(address),
+                        addresses))
+
+    def get_address_data(self, address):
+        pipe = self.db.pipeline()
+
+        # balance
+        pipe.hget(address, schema.FIELD_BALANCE)
+
+        # baseline
+        pipe.hget(address, schema.FIELD_BASELINE)
+
+        # isOnlyDecreasing
+        pipe.sismember(schema.SET_ONLY_DECREASING, address)
+
+        # isOnlyIncreasing
+        pipe.sismember(schema.SET_ONLY_INCREASING, address)
+
+        # isForClientInput
+        pipe.sismember(schema.SET_CLIENT_INPUT, address)
+
+        # isForClientOutput
+        pipe.sismember(schema.SET_CLIENT_OUTPUT, address)
+
+        responses = pipe.execute()
+        balance, baseline, isOnlyDecreasing = responses[0:3]
+        isOnlyIncreasing, isForClientInput, isForClientOutput = responses[3:6]
+
+        return Address(address, balance, baseline, isOnlyDecreasing,
+                       isOnlyIncreasing, isForClientInput, isForClientOutput)
+
+    """
+    =========
+    """
 
     def __get_database(self):
         if self.is_test_db is True:
