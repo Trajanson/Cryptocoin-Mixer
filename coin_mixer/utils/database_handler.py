@@ -48,7 +48,7 @@ class Database_Handler(object):
             raise ValueError('Value or intended value cannot be less than 0')
 
         addressHash = {schema.FIELD_BALANCE: value,
-                       schema.FIELD_BALANCE: baseline_value}
+                       schema.FIELD_BASELINE: baseline_value}
 
         pipe = self.db.pipeline()
 
@@ -99,7 +99,7 @@ class Database_Handler(object):
             self.db.flushdb()
 
     def get_random_ecosystem_addresses(self, num_addresses):
-        addresses = self.db.SRANDMEMBER(schema.SET_ECOSYSTEM, num_addresses)
+        addresses = self.db.srandmember(schema.SET_ECOSYSTEM, num_addresses)
         return list(map(lambda address: self.get_address_data(address),
                         addresses))
 

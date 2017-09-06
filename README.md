@@ -16,7 +16,10 @@ https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
 
 
 TODO:
-- Finish bootstrapper test
+- 
+
+
+
 - Transaction Engine
 - Formula for transactions
 - Formula for determining charges

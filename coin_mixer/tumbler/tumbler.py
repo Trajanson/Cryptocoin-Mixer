@@ -11,11 +11,11 @@ class Tumbler(object):
 
     def generate_transactions(self):
         transacting_addresses = self.generate_transaction_addresses()
-        transacting_addresses = list(np.random.shuffle(transacting_addresses))
+        np.random.shuffle(transacting_addresses)
 
         zipList = zip(*[iter(transacting_addresses)]*2)
         for firstAddress, secondAddress in zipList:
-            transaction_engine.add(firstAddress, secondAddress)
+            self.transaction_engine.add(firstAddress, secondAddress)
 
     def select_baseline_values(self, num_to_select, for_new_addresses=False):
         total_value_in_ecosystem = self.db.total_value_in_ecosystem()

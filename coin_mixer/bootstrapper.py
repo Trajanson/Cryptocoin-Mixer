@@ -5,6 +5,7 @@ from coin_mixer.utils.cryptocoin_api import CryptocoinAPI
 from coin_mixer.utils.cryptocoin_api_handler import Cryptocoin_API_Handler
 from coin_mixer.utils.database_handler import Database_Handler
 from coin_mixer.tumbler.tumbler import Tumbler
+from coin_mixer.transaction_engine.transaction_engine import TransactionEngine
 
 
 def run_bootstrapper(in_test=True):
@@ -32,7 +33,7 @@ def create_seed_fund_addresses(coin_interface, database):
 
 
 def create_initial_ecosystem_addresses(coin_interface, database):
-    tumbler = Tumbler(database)
+    tumbler = Tumbler(database, TransactionEngine(database))
     num_create = HyperParameters.NUM_INITIAL_ADDRESSES
 
     baseline_values = tumbler.select_baseline_values(num_create, True)

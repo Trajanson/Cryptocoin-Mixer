@@ -20,17 +20,23 @@ run_bootstrapper(in_test=True)
 def engage_tumbler():
     epoch_length = HyperParameters.TUMBLER_EPOCH_LENGTH
     threading.Timer(epoch_length, engage_tumbler).start()
+
     tumbler.generate_transactions()
 
 
 def engage_transaction_engine():
     epoch_length = HyperParameters.TUMBLER_EPOCH_LENGTH
     threading.Timer(epoch_length, engage_tumbler).start()
+    
     tumbler.generate_transactions()
 
 
-engage_tumbler()
-engage_transaction_engine()
+def engage_mixer(time_duration=float("inf")):
+    engage_tumbler()
+    # engage_transaction_engine()
+
+
+engage_mixer()
 
 FIVE_MINUTES = 5 * 60
 time.sleep(FIVE_MINUTES)

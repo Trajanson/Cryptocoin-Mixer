@@ -35,6 +35,12 @@ class BootstrapperTestCase(unittest.TestCase):
         actual = self.db.total_num_addresses_in_ecosystem()
         assert actual == expected
 
+    # Checks that no exceptions called from within called method
+    # for invalid input
+    def test_random_addresses_for_valid_fields(self):
+        self.db.get_random_ecosystem_addresses(3)
+
+
     def tearDown(self):
         self.db.delete_database()
 
