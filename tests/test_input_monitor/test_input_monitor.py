@@ -11,6 +11,7 @@ from coin_mixer.constants import HyperParameters
 from coin_mixer.utils.database_handler import Database_Handler
 from coin_mixer.bootstrapper import run_bootstrapper
 from coin_mixer.input_monitor.input_monitor import Input_Monitor
+from coin_mixer.output_monitor.output_monitor import OutputMonitor
 from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
 from coin_mixer.tumbler.tumbler import Tumbler
 from coin_mixer.utils.mock_cryptocoin_api import MockCryptocoinAPI
@@ -24,13 +25,16 @@ class InputMonitorTestCase(unittest.TestCase):
         self.db.delete_database()
 
         self.coin_interface = CryptocoinAPIHandler(MockCryptocoinAPI())
-        self.transaction_engine = TransactionEngine(self.db)
+        self.output_monitor = OutputMonitor()
+        self.transaction_engine = TransactionEngine(self.db,
+                                                    self.coin_interface,
+                                                    self.output_monitor)
         self.tumbler = Tumbler(self.db, self.transaction_engine)
 
         self.input_monitor = Input_Monitor(self.db, self.coin_interface,
                                            self.tumbler)
 
-        run_bootstrapper(self.coin_interface, self.db)
+        run_bootstrapper(self.coin_interface, self.db, self.output_monitor)
 
     def test_input_monitor__does_not_pulls_coins_into_system(self):
         input_address = "FnUXvRSPtM"

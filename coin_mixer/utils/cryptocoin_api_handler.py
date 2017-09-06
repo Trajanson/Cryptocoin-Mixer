@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import math
 from random import choice
 from string import ascii_letters
 

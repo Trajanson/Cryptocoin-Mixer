@@ -14,6 +14,11 @@ https://speakerdeck.com/mitsuhiko/advanced-flask-patterns-1
 https://krzysztofzuraw.com/blog/2016/makefiles-in-python-projects.html
 
 
+## Key Features
+- a
+- b
+- c
+
 
 TODO:
 - add watched inputs to redis
@@ -89,3 +94,14 @@ timer = RepeatedTimer(2, print, 'Hello world')
 # stop timer
 timer.stop()
 ```
+
+
+
+
+
+
+
+
+## Problems with implementation
+- Database is out of sync with reality
+  - if someone randomly adds value to a node it will still drop out of the system

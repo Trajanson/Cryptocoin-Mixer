@@ -8,6 +8,7 @@ class Input_Monitor(object):
         self.tumbler = tumbler
 
         """
+        TARGET STRUCTURE:
             {address: address,
              target_goal: targetValue
             }

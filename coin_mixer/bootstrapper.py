@@ -5,14 +5,16 @@ from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
 from coin_mixer.utils.database_handler import Database_Handler
 from coin_mixer.tumbler.tumbler import Tumbler
 from coin_mixer.transaction_engine.transaction_engine import TransactionEngine
+from coin_mixer.output_monitor.output_monitor import OutputMonitor
 
 
-def run_bootstrapper(coin_interface, database):
-    create_seed_fund_addresses(coin_interface, database)
-    create_initial_ecosystem_addresses(coin_interface, database)
+def run_bootstrapper(coin_interface, database, output_monitor):
+    create_seed_fund_addresses(coin_interface, database, output_monitor)
+    create_initial_ecosystem_addresses(coin_interface, database,
+                                       output_monitor)
 
 
-def create_seed_fund_addresses(coin_interface, database):
+def create_seed_fund_addresses(coin_interface, database, output_monitor):
     seed_fund_addresses = []
     for num_coin_created in range(HyperParameters.NUM_INJECTION_ADDRESSES):
         address = coin_interface.create_address_with_coins()
@@ -24,8 +26,10 @@ def create_seed_fund_addresses(coin_interface, database):
                                               coins_per_address)
 
 
-def create_initial_ecosystem_addresses(coin_interface, database):
-    tumbler = Tumbler(database, TransactionEngine(database))
+def create_initial_ecosystem_addresses(coin_interface, database,
+                                       output_monitor):
+    tumbler = Tumbler(database, TransactionEngine(database, coin_interface,
+                      output_monitor))
     num_create = HyperParameters.NUM_INITIAL_ADDRESSES
 
     baseline_values = tumbler.select_baseline_values(num_create, True)
@@ -39,5 +43,6 @@ def create_initial_ecosystem_addresses(coin_interface, database):
 if __name__ == '__main__':
     coin_interface = CryptocoinAPIHandler(CryptocoinAPI())
     database = Database_Handler(test_db=False)
+    output_monitor = OutputMonitor()
 
-    run_bootstrapper(coin_interface, database)
+    run_bootstrapper(coin_interface, database, output_monitor)

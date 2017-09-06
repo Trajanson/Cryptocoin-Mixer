@@ -8,8 +8,6 @@ from coin_mixer.models.address import Address
 
 
 class Database_Handler(object):
-    ECOSYSTEM_ADDRESSES_SET = 'ecosystem addresses'
-
     def __init__(self, test_db=True):
         self.is_test_db = test_db
         self.db = self.__get_database()
@@ -38,7 +36,8 @@ class Database_Handler(object):
 
     def store_new_address(self, address, baseline_value, value=0,
                           isOnlyDecreasing=False, isOnlyIncreasing=False,
-                          isForClientInput=False, isForClientOutput=False):
+                          isForClientInput=False, isForClientOutput=False,
+                          max_value=float("inf")):
         if isOnlyDecreasing is True and isOnlyIncreasing is True:
             raise ValueError('Address cannot be increasing and decreasing')
 
@@ -49,7 +48,8 @@ class Database_Handler(object):
             raise ValueError('Value or intended value cannot be less than 0')
 
         addressHash = {schema.FIELD_BALANCE: value,
-                       schema.FIELD_BASELINE: baseline_value}
+                       schema.FIELD_BASELINE: baseline_value,
+                       schema.FIELD_MAX_VALUE: max_value}
 
         pipe = self.db.pipeline()
 
@@ -85,7 +85,12 @@ class Database_Handler(object):
         pipe.srem(schema.SET_ECOSYSTEM, address)
         pipe.srem(schema.SET_CLIENT_INPUT, address)
         pipe.srem(schema.SET_CLIENT_OUTPUT, address)
+        pipe.srem(schema.SET_COMPROMISED, address)
         pipe.execute()
+
+    # NOTE: increase_in_value can be positve or negative
+    def increment_value_at_address(self, address, increase_in_value):
+        self.db.hincrby(address, schema.FIELD_BALANCE, increase_in_value)
 
     def total_value_in_ecosystem(self):
         return int(self.db.get(schema.KEY_TOTAL_BALANCE))
@@ -125,12 +130,21 @@ class Database_Handler(object):
         # isForClientOutput
         pipe.sismember(schema.SET_CLIENT_OUTPUT, address)
 
+        # hasBeenCompromised
+        pipe.sismember(schema.SET_COMPROMISED, address)
+
+        # maxValue
+        pipe.hget(address, schema.FIELD_MAX_VALUE)
+
         responses = pipe.execute()
         balance, baseline, isOnlyDecreasing = responses[0:3]
         isOnlyIncreasing, isForClientInput, isForClientOutput = responses[3:6]
+        hasBeenCompromised = responses[6]
+        maxValue = responses[7]
 
         return Address(address, balance, baseline, isOnlyDecreasing,
-                       isOnlyIncreasing, isForClientInput, isForClientOutput)
+                       isOnlyIncreasing, isForClientInput, isForClientOutput,
+                       hasBeenCompromised, maxValue)
 
     """
     =========
