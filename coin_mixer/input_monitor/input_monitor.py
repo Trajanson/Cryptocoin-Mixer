@@ -1,4 +1,4 @@
-class Input_Watch(object):
+class Input_Monitor(object):
     def __init__(self, database, cryptocoin_handler, tumbler):
         self.db = database
         self.cryptocoin_handler = cryptocoin_handler
@@ -12,9 +12,14 @@ class Input_Watch(object):
         self.targets = []
 
     def check_inputs(self):
+        remaining_targets = []
         for target_data in self.targets:
-            if self.__targetReached(target_data):
+            if self.__target_goal_reached(target_data):
                 self.push_coins_into_ecosystem(target_data)
+            else:
+                remaining_targets.append(target_data)
+
+        self.targets = remaining_targets
 
     def push_coins_into_ecosystem(self, target_data):
         input_address = target_data.address
@@ -30,7 +35,7 @@ class Input_Watch(object):
                                              value, isOnlyDecreasing=True,
                                              isOnlyIncreasing=False)
 
-    def __targetReached(self, target_data):
+    def __target_goal_reached(self, target_data):
         target_goal = target_data.target_goal
 
         address = target_data.address
