@@ -24,6 +24,9 @@ class MonteCarloSimulation():
         self.transaction_engine_is_halted = False
 
     def execute(self):
+        print("=================")
+        print("Beginning run #%i" % (self.current_run_num + 1))
+
         if (self.current_run_num < self.num_runs):
             self.current_run_start_time = time.time()
             self.__execute_run()
