@@ -37,7 +37,7 @@ class InputMonitorTestCase(unittest.TestCase):
 
         run_bootstrapper(self.coin_interface, self.db, self.output_monitor)
 
-    def test_input_monitor__does_not_pulls_coins_into_system(self):
+    def test_input_monitor_does_not_pulls_coins_into_system(self):
         input_address = "FnUXvRSPtM"
         self.coin_interface.create_address_with_coins(input_address)
         target_goal = 1000

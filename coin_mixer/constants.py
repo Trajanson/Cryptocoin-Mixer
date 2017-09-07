@@ -24,6 +24,9 @@ class HyperParameters(object):
     # In Seconds
     TRANSACTION_ENGINE_EPOCH_LENGTH = 1
 
+    # In Seconds
+    INPUT_MONITOR_EPOCH_LENGTH = 5
+
     """
     FUNCTIONS FOR DEFINING POPULATION PARAMETERS
     """

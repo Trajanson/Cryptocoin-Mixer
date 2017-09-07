@@ -1,4 +1,5 @@
 #!/bin/bash
 
 redis-server --daemonize yes
-/bin/bash
+run_service.py
+# /bin/bash

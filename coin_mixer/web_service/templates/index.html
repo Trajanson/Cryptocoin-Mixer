@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Cryptocoin Mixer Service</title>
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
+  </head>
+
+
+  <body>
+      <div class="title-container">
+          <span class="title">
+              Cryptocoin Mixer Service
+          </span>
+      </div>
+
+      <div class="description">
+          Submit an address to have it mixed through the service.
+          <br />
+          <br />
+          To submit multiple output addresses insert space seperated values.
+          <br />
+          For example: myFirstAddress mySecondAddress
+      </div>
+
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="flash-messages-container">
+                  {% for message in messages %}
+                      <div class="flash-message">
+                          Error: {{ message }}
+                      </div>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      {% endwith %}
+
+      <form action="/mix-request" method="POST">
+        <div>
+          <label for="input-address">Input Address:</label>
+          <input type="text" id="input-address" name="input_address" />
+        <div>
+
+        <div>
+          <label for="output-addresses">Output Addresses:</label>
+          <input type="text" id="output-addresses" name="output_addresses" />
+        <div>
+
+        <div>
+          <label for="deposit-value">Amount to Deposit:</label>
+          <input type="text" id="deposit-value" name="deposit_value" />
+        <div>
+
+          <div class="button">
+            <button type="submit">Submit Request</button>
+          </div>
+
+      </form>
+
+  </body>
+</html>

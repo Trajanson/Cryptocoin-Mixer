@@ -32,7 +32,6 @@ class MonteCarloSimulation():
         else:
             self.__print_exit_message()
 
-
     def __check_for_run_completion(self):
         interval = max(HyperParameters.TUMBLER_EPOCH_LENGTH,
                        HyperParameters.TRANSACTION_ENGINE_EPOCH_LENGTH)
@@ -50,6 +49,7 @@ class MonteCarloSimulation():
                     self.seconds_per_run.append(duration)
 
                 self.is_waiting_at_barrier = True
+                threading.Timer(interval, self.__check_for_run_completion).start()
             else:
                 if (self.tumbler_is_halted is True and
                         self.transaction_engine_is_halted is True):
@@ -116,13 +116,23 @@ class MonteCarloSimulation():
         client_operator.add_request(new_input_address, [new_output_address],
                                     request_value)
 
-    def __has_completed_client_requests(self):
-        output_monitor = self.mix_service.output_monitor
-        return len(output_monitor.monitored_addresses) == 0
+    def __print_exit_message(self):
+        failed_runs = 0
+        for run_time in self.seconds_per_run:
+            if run_time == float("inf"):
+                failed_runs += 1
+
+        if failed_runs > 0:
+            print(f"{failed_runs} runs failed")
+        else:
+            total = np.sum(self.seconds_per_run)
+            mean = np.mean(self.seconds_per_run)
+            print(f"{self.num_runs} executed in {total} seconds")
+            print(f"with an average run time of {mean} seconds")
 
 
 num_runs = 5
-num_requests_per_run = 20
+num_requests_per_run = 3
 max_timeout = 600
 simulation = MonteCarloSimulation(num_runs, num_requests_per_run, max_timeout)
 simulation.execute()
