@@ -38,7 +38,7 @@ class Operators(object):
 
 
 if __name__ == "__main__":
-    in_test = True
+    in_test = False
 
     mix_service = MixService(in_test)
 

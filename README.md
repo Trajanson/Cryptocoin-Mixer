@@ -1,4 +1,5 @@
 # [Cryptocoin Mixer][cryptocoinMixer]
+[![Build Status](https://travis-ci.org/Trajanson/Cryptocoin-Mixer.svg?branch=master)](https://travis-ci.org/Trajanson/Cryptocoin-Mixer)
 ## By [Julian Theoderik Trajanson][trajanson]
 
 A Cryptocoin Mixer is a tool used to obscure history and ownership of cryptocoin accounts. This function carries particular utility in the Bitcoin community, where all transactions are fully visible in a public ledger.
