@@ -7,3 +7,5 @@ script: make test
 notifications:
   email:
   - julian.trajanson@gmail.com
+services:
+  - redis-server
