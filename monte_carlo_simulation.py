@@ -137,6 +137,6 @@ class MonteCarloSimulation():
 
 num_runs = 5
 num_requests_per_run = 3
-max_timeout = 600
+max_timeout = 60 * 30
 simulation = MonteCarloSimulation(num_runs, num_requests_per_run, max_timeout)
 simulation.execute()

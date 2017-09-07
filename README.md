@@ -6,9 +6,9 @@ A Cryptocoin Mixer is a tool used to obscure history and ownership of cryptocoin
 
 ## Use Case
 
-In its most extreme depiction, the lack of account privacy in some cryptocurrencies could be undermining to potential high-profile adopters who are otherwise deterred from using the currencies. Less conspicuous users similarly would like to maintain anonymity from antagonists and privacy in their personal transactions. These concerns are remedied by the use of a properly functioning Cryptocoin Mixer.
+The lack of account privacy in some cryptocurrencies could be undermining to potential adopters who are deterred from using the currencies. Users similarly would like to maintain anonymity from antagonists and privacy in their personal transactions. These concerns are remedied by the use of a properly functioning Cryptocoin Mixer.
 
-To use a Mixer, users submit their coins into the black-box process of the Mixer and have their coins arrive untraceably into a number of uncompromised accounts (preferably more than one) identified by the user. This Cryptocin Mixer is one such implementation of the black-box.
+To use a Mixer, users submit their coins into the black-box process of the Mixer and have their coins arrive untraceably into a number of uncompromised accounts (preferably more than one) identified by the user. This Cryptocin Mixer is one such implementation of the black-box process.
 
 ## Strategy
 
@@ -25,9 +25,12 @@ Antagonists can use the service to discover the input and output addresses and b
 #### Intermediate Approach: The Tumbler
 
 ###### Description:
-In this approach, transactions flow through the Mixer in stochastic "mean-reverting random-walk" patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transaction in the external system. This is the approach taken by this Mixer.
+In this approach, transactions flow through the Mixer in stochastic "mean-reverting random-walk" patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transactions in the external system. This is the approach taken by this Mixer.
 
 An iterative improvement on this design may be to have multiple Tumbler eco-systems that rotate among input and output nodes. This would be roughly similar to the conduct of Casinos that rotate multiple decks of playing cards to diminish the threat of card counters.
+
+A further iterative improvement on this design would be to incorporate behavioral analysis of addresses outside the Mixer. The aim here would be to outsmart trained binary classifiers models which may be able to identify addresses within the Mixer vs. external addresses used by humans. At a level of low complexity, this might involve adjusting the frequency and size of transactions; at a level of high complexity in combatting gradient boosted decision trees or deep learning models this may involve manipulating the subtle interactions of various parameters.
+
 
 ###### Deficiencies:
 Advanced analysis may be able to identify the behavioral characteristics that differentiate addresses within the Mixer eco-system from human addresses in the external system. Moreover, network analysis may indicate that compromised addresses within the eco-system have interacted more heavily with other addresses (within the eco-system). With knowledge of which nodes belong to the Mixer, temporal analysis can be used to narrow identification of deposits that match withdrawals from the input address.
