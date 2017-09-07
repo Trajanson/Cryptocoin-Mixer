@@ -123,12 +123,12 @@ class MonteCarloSimulation():
                 failed_runs += 1
 
         if failed_runs > 0:
-            print(f"{failed_runs} runs failed")
+            print("%i runs failed" % failed_runs)
         else:
             total = np.sum(self.seconds_per_run)
             mean = np.mean(self.seconds_per_run)
-            print(f"{self.num_runs} executed in {total} seconds")
-            print(f"with an average run time of {mean} seconds")
+            print("{self.num_runs} executed in %f seconds" % total)
+            print("with an average run time of %f seconds" % mean)
 
 
 num_runs = 5

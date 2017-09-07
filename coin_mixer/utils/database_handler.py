@@ -62,7 +62,7 @@ class DatabaseHandler(object):
                        schema.FIELD_MAX_VALUE: max_value}
 
         if len(address) != 10:
-            raise ValueError(f'Address {address} tried to be added')
+            raise ValueError('Address %s tried to be added' % address)
 
         pipe = self.db.pipeline()
 

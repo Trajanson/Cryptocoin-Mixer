@@ -1,3 +1,53 @@
+# Cryptocoin Mixer
+## By [Julian Theoderik Trajanson][trajanson]
+
+A Cryptocoin Mixer is a tool used to obscure history and ownership of cryptocoin accounts. This function carries particular utility in the Bitcoin community, where all transactions are fully visible in a public ledger.
+
+## Use Case
+
+In its most extreme depiction, the lack of account privacy in some cryptocurrencies could be undermining to potential high-profile adopters who are otherwise deterred from using the currencies. Less conspicuous users similarly would like to maintain anonymity from antagonists and privacy in their personal transactions. These concerns are remedied by the use of a properly functioning Cryptocoin Mixer.
+
+To use a Mixer, users submit their coins into the black-box process of the Mixer and have their coins arrive untraceably into a number of uncompromised accounts (preferably more than one) identified by the user. This Cryptocin Mixer is one such implementation of the black-box.
+
+## Strategy
+
+The theme of this Cryptocoin Mixer is **obfuscation and deception**.
+
+#### Naive Approach: Linear Path Ping
+
+###### Description:
+In this approach, transactions can be mapped to a DAG (directed acyclic graph). Transactions flow in one direction from the input address, through layers of nodes in the Mixer and ultimately to the output address.
+
+###### Deficiencies:
+Antagonists can use the service to discover the input and output addresses and by following the DAG, discover the other addresses within the hidden layers. Any addresses that immediately receive coins from a compromised address are known to have used the service. Temporal analysis can also be indicative of where coins from the input node 'disappeared to'.
+
+#### Intermediate Approach: The Tumbler
+
+###### Description:
+In this approach, transactions flow through the Mixer in stochastic patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transaction in the external system. This is the approach taken by this Mixer.
+
+An iterative improvement on this design may be to have multiple Tumbler eco-systems that rotate among input and output nodes. This would be roughly similar to the conduct of Casinos that rotate multiple decks of playing cards to diminish the threat of card counters.
+
+###### Deficiencies:
+Advanced analysis may be able to identify the behavioral characteristics that differentiate addresses within the Mixer eco-system from human addresses in the external system. Moreover, network analysis may indicate that compromised addresses within the eco-system have interacted more heavily with other addresses (within the eco-system). With knowledge of which nodes belong to the Mixer, temporal analysis can be used to narrow identification of deposits that match withdrawals from the input address.
+
+A significant disadvantage of this approach is the cost of capital tied up in the Tumbler. Akin, to storing money under a mattress,
+
+
+#### Advanced Approach: Cryptofutures Exchange
+
+
+Antagonists can use the service to discover the input and output addresses and by following the DAG, discover the other addresses within the hidden layers. Temporal analysis can also be indicative of where coins from the input node 'disappeared to'.
+
+
+heat map
+
+
+demonstration of a number of technologies in the Python [Flask][flask] ecosystem deployed via use of [Virtualenv][virtualenv], [Gunicorn][gunicorn], [Heroku][heroku], [Travis CI][travis], [Docker][docker], and Flask's native [Werkzeug testing client][werkzeug].
+
+
+
+
 Assumptions:
   - no big decimal class
   - only integers
@@ -109,3 +159,7 @@ timer.stop()
 ## Problems with implementation
 - Database is out of sync with reality
   - if someone randomly adds value to a node it will still drop out of the system
+
+
+
+[trajanson]: http://trajanson.com/

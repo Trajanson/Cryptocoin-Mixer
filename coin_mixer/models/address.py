@@ -10,13 +10,14 @@ class Address(object):
 
         adr = address
         if balance is None:
-            raise ValueError(f'Address balance at {adr} is missing')
+            raise ValueError('Address balance at %s is missing' % adr)
         if int(balance.decode('utf-8')) < 0:
             bal = balance.decode('utf-8')
             raise ValueError(
-                f'Address balance at {adr} is negative with a value of {bal}')
+                'Address balance at %s is negative with a value of %i' % (
+                    adr, bal))
         if baseline is None:
-            raise ValueError(f'Address baseline at {adr} is missing')
+            raise ValueError('Address baseline at %s is missing' % adr)
 
         self.address = str(address)
         self.balance = int(balance.decode('utf-8'))

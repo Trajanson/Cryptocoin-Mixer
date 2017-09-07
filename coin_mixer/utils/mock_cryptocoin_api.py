@@ -48,15 +48,15 @@ class MockCryptocoinAPI(object):
             return {'error': error}
 
         elif fromAddress not in self.addresses:
-            name = fromAddress
-            error = f"{name} has no jobcoins!  Is it a new or unused address?"
+            nme = fromAddress
+            error = "%s has no jobcoins!  Is it a new or unused address?" % nme
             return {"error": error}
         else:
             fromAddressBalance = float(self.addresses[fromAddress]["balance"])
 
             if fromAddressBalance - float(amount) <= 0:
                 num_coins = self.addresses[fromAddress]["balance"]
-                error = f'{fromAddress} only has {num_coins} jobcoins!'
+                error = '%s only has %s jobcoins!' % (fromAddress, num_coins)
                 return {'error': error}
 
             else:

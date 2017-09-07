@@ -28,8 +28,8 @@ class OutputMonitor(object):
         if callback is not None:
             callback()
         print("=================================================")
-        print(f"Funds at {address} have been released")
-        print(f"{len(self.monitored_addresses) - 1} request outstanding")
+        print("Funds at %s have been released" % address)
+        print("%i request outstanding" % (len(self.monitored_addresses) - 1))
         print("=================================================")
 
     def __get_address_user_callback(self, address):

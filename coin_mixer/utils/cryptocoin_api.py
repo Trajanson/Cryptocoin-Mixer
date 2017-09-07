@@ -4,7 +4,8 @@ import requests
 
 class CryptocoinAPI():
     def get_address_info(self, address):
-        url = f"http://jobcoin.gemini.com/undecided/api/addresses/{address}"
+        url = "http://jobcoin.gemini.com/undecided/api/addresses/"
+        url += address
         cryptocoin_response = requests.get(url).json()
         return cryptocoin_response
 

@@ -1,7 +1,7 @@
 FROM ubuntu
 
 RUN apt-get update
-RUN apt-get install -y apt-utils build-essential curl git tcl lsof
+RUN apt-get install -y apt-utils build-essential curl git lsof tcl
 RUN apt-get install -y python3 python3-pip
 
 RUN mkdir -p /home/cryptocoin-mixer
@@ -23,6 +23,7 @@ COPY . /home/cryptocoin-mixer/app
 WORKDIR /home/cryptocoin-mixer/app
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
+RUN chmod +x ./run_service.py
 
 EXPOSE 80
-CMD ./docker-entrypoint.sh
+CMD /docker-entrypoint.sh
