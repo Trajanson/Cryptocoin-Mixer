@@ -1,4 +1,4 @@
-# Cryptocoin Mixer
+# [Cryptocoin Mixer][cryptocoinMixer]
 ## By [Julian Theoderik Trajanson][trajanson]
 
 A Cryptocoin Mixer is a tool used to obscure history and ownership of cryptocoin accounts. This function carries particular utility in the Bitcoin community, where all transactions are fully visible in a public ledger.
@@ -67,3 +67,4 @@ This approach requires substantial liquidity to maintain low transactional costs
 
 
 [trajanson]: http://trajanson.com/
+[cryptocoinMixer]: http://ec2-34-229-88-203.compute-1.amazonaws.com/
