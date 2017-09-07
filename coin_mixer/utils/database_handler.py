@@ -108,13 +108,7 @@ class DatabaseHandler(object):
 
     # NOTE: increase_in_value can be positve or negative
     def increment_value_at_address(self, address, increase_in_value):
-        print("-----")
-        print("address at increment location", address)
-        print("start value at address: ", self.db.hget(address, schema.FIELD_BALANCE))
-        print("increase_in_value at increment location", increase_in_value)
         self.db.hincrby(address, schema.FIELD_BALANCE, increase_in_value)
-        print("end value at address: ", self.db.hget(address, schema.FIELD_BALANCE))
-        print("-----")
 
     def total_value_in_ecosystem(self):
         return int(self.db.get(schema.KEY_TOTAL_BALANCE))

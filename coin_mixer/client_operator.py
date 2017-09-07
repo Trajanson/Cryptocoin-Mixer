@@ -8,14 +8,14 @@ class ClientOperator(object):
         self.output_monitor = output_monitor
 
     def add_request(self, input_address, output_addresses, request_value,
-                    user):
+                    user_callback=None):
         assert(isinstance(output_addresses, list))
 
         self.input_monitor.add_target(input_address, request_value)
 
         for allocation in self.__allocate(output_addresses, request_value):
             address, goal_value = allocation
-        self.output_monitor.add_target(address, goal_value, user)
+        self.output_monitor.add_target(address, goal_value, user_callback)
 
     def __allocate(self, output_addresses, request_value):
         """

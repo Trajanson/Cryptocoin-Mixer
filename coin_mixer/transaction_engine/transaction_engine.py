@@ -80,8 +80,6 @@ class TransactionEngine(object):
             transfer = self.transaction_strategy.determine_transfer(
                 first_address_data, second_address_data)
             if transfer is not None:
-                print("transfer: (sender, receiver, transfer_value)")
-                print("transfer", transfer)
                 self.__execute_transfer(transfer)
 
     def __execute_transfer(self, transfer):

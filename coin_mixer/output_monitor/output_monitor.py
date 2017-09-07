@@ -6,7 +6,7 @@ class OutputMonitor(object):
         self.db = database
         self.monitored_addresses = {}
 
-    def add_target(self, address, goal_value, user_callback):
+    def add_target(self, address, goal_value, user_callback=None):
         self.db.store_new_client_output_address(address,
                                                 baseline_value=goal_value,
                                                 value=0, max_value=goal_value)
@@ -19,22 +19,17 @@ class OutputMonitor(object):
         :rtype: None
         """
         self.db.remove_address_from_ecosystem(address)
+
         self.__notify_user_of_released_address(address)
         self.__remove_target(address)
 
     def __notify_user_of_released_address(self, address):
-        owner = self.__get_address_user_callback(address)
+        callback = self.__get_address_user_callback(address)
+        if callback is not None:
+            callback()
         print("=================================================")
-        print("=================================================")
-        print("=================================================")
-        print("=================================================")
-        print("=================================================")
-        print(f"{owner}'s funds at {address} have been released")
-        print(f"{len(self.monitored_addresses)} remaining")
-        print("=================================================")
-        print("=================================================")
-        print("=================================================")
-        print("=================================================")
+        print(f"Funds at {address} have been released")
+        print(f"{len(self.monitored_addresses) - 1} request outstanding")
         print("=================================================")
 
     def __get_address_user_callback(self, address):

@@ -74,9 +74,6 @@ class TransactionStrategy(object):
                                            second_address_max_accept)
 
         rnge = range(-1*first_address_max_payout, second_address_max_payout+1)
-        print(f"first_address_max_payout: {first_address_max_payout}")
-        print(f"second_address_max_payout: {second_address_max_payout}")
-        print("rnge", rnge)
         return list(rnge)
 
     @staticmethod
@@ -91,14 +88,9 @@ class TransactionStrategy(object):
         first_address_name = first_address_data.address
         second_address_name = second_address_data.address
         if transfer_value < 0:
-            print("organized transfer: (sender, receiver, transfer_value)")
-            print("transfer", (first_address_name, second_address_name,
-                    abs(transfer_value)))
             return (first_address_name, second_address_name,
                     abs(transfer_value))
         elif transfer_value == 0:
             return None
         if transfer_value > 0:
-            print("organized transfer: (sender, receiver, transfer_value)")
-            print("transfer", (second_address_name, first_address_name, transfer_value))
             return (second_address_name, first_address_name, transfer_value)

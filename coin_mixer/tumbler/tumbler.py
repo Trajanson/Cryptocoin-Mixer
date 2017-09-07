@@ -42,11 +42,6 @@ class Tumbler(object):
                            HyperParameters.NUM_INITIAL_ADDRESSES)
 
         probability_of_increase = (1 - (1 / (1 + np.exp(-node_multiplier))))
-        print("num_addresses_in_ecosystem", num_addresses_in_ecosystem)
-        print("num_compromised", num_compromised)
-        print("num_client_output", num_client_output)
-        print("num_fully_active_addresses", num_fully_active_addresses)
-        print("HyperParameters.NUM_INITIAL_ADDRESSES", HyperParameters.NUM_INITIAL_ADDRESSES)
 
         if num_fully_active_addresses < HyperParameters.NUM_INITIAL_ADDRESSES:
             self.__pull_address_into_ecosystem()
@@ -58,11 +53,6 @@ class Tumbler(object):
         baseline = self.select_baseline_values(1, True)[0]
 
         assert isinstance(baseline, float)
-        print("***************************************************")
-        print("***************************************************")
-        print(f"{address_name} has been pulled into the ecosystem")
-        print("***************************************************")
-        print("***************************************************")
 
         self.db.store_new_address(address_name, baseline, value=0,
                                   isOnlyDecreasing=False,
