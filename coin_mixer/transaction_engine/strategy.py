@@ -23,7 +23,7 @@ class TransactionStrategy(object):
         transfer_range = TransactionStrategy.__get_range_of_transfer_values(
             first_address_data, second_address_data)
 
-        selection = int(np.random.choice(transfer_range, 1)[0])
+        selection = int(np.random.choice(transfer_range, 1, replace=False)[0])
         return selection
 
     @staticmethod

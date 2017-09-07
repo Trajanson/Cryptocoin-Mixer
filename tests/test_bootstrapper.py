@@ -8,7 +8,7 @@
 
 import unittest
 
-from coin_mixer.utils.database_handler import Database_Handler
+from coin_mixer.utils.database_handler import DatabaseHandler
 from coin_mixer.constants import HyperParameters
 from coin_mixer.utils.mock_cryptocoin_api import MockCryptocoinAPI
 from coin_mixer.utils.cryptocoin_api_handler import CryptocoinAPIHandler
@@ -19,9 +19,9 @@ from coin_mixer.bootstrapper import run_bootstrapper
 class BootstrapperTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.db = Database_Handler(test_db=True)
+        self.db = DatabaseHandler(test_db=True)
         self.db.delete_database()
-        self.output_monitor = OutputMonitor()
+        self.output_monitor = OutputMonitor(self.db)
 
         coin_interface = CryptocoinAPIHandler(MockCryptocoinAPI())
 

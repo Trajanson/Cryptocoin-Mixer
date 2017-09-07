@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class Address_Schema(object):
+class AddressSchema(object):
     # Addresses #
     FIELD_BALANCE = 'Balance'
     FIELD_BASELINE = 'Mean Reverting Balance'

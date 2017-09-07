@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class Input_Monitor(object):
+class InputMonitor(object):
     def __init__(self, database, cryptocoin_handler, tumbler):
         self.db = database
         self.cryptocoin_handler = cryptocoin_handler

@@ -8,11 +8,11 @@ class HyperParameters(object):
     EXPECTED_PERCENT_OF_ADDRESSES_TO_ENGAGE = 0.20
 
     # Number of Nodes Used to Inject Currency Into Ecosystem
-    # (1000 Jobcoins total)
-    NUM_INJECTION_ADDRESSES = 20
+    # (2000 Jobcoins total)
+    NUM_INJECTION_ADDRESSES = 40
 
     # Number of Empty Addresses Used to Begin Internal Ecosystem
-    NUM_INITIAL_ADDRESSES = 50
+    NUM_INITIAL_ADDRESSES = 100
 
     NUM_COINS_GIVEN_TO_NEW_ADDRESS = 50
 

@@ -3,11 +3,11 @@ import redis
 import math
 
 from coin_mixer.constants import Config
-from coin_mixer.schemas import Address_Schema as schema
+from coin_mixer.schemas import AddressSchema as schema
 from coin_mixer.models.address import Address
 
 
-class Database_Handler(object):
+class DatabaseHandler(object):
     def __init__(self, test_db=True):
         self.is_test_db = test_db
         self.db = self.__get_database()
@@ -17,6 +17,12 @@ class Database_Handler(object):
     INTERFACE
     =========
     """
+    def store_new_client_output_address(self, address, baseline_value,
+                                        value, max_value):
+        self.store_new_address(address, baseline_value, value,
+                               isOnlyDecreasing=False, isOnlyIncreasing=True,
+                               isForClientInput=False, isForClientOutput=True,
+                               max_value=max_value)
 
     def store_new_decreasing_address(self, address, baseline_value, value=0,
                                      isForClientInput=False,
@@ -97,6 +103,12 @@ class Database_Handler(object):
 
     def total_num_addresses_in_ecosystem(self):
         return int(self.db.scard(schema.SET_ECOSYSTEM))
+
+    def total_num_compromised_addresses_in_ecosystem(self):
+        return int(self.db.scard(schema.SET_COMPROMISED))
+
+    def total_num_client_output_addresses_in_ecosystem(self):
+        return int(self.db.scard(schema.SET_CLIENT_OUTPUT))
 
     def delete_database(self):
         if self.is_test_db is False:
