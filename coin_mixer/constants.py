@@ -45,10 +45,6 @@ class HyperParameters(object):
         return (mean - 0) / 4
 
 
-class Constants(object):
-    pass
-
-
 class Config(object):
     TEST_DB_HOST = 'localhost'
     TEST_DB_NUMBER = 6

@@ -9,6 +9,9 @@ save-dependencies:
 test:
 		python3 setup.py test
 
+run-monte-carlo-simulations:
+		python monte_carlo_simulation.py
+
 clean-pyc:
 		find . -name \*.pyc -delete
 

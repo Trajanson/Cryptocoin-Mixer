@@ -62,7 +62,10 @@ This approach requires substantial liquidity to maintain low transactional costs
 2. `$ make run-docker`
 
 ###  Run Tests
+*Monte Carlo Simulation parameters are configurable from within the `monte_carlo_simulation.py` script.*
+
 1. `$ make test`
+2. `$ make run-monte-carlo-simulations`
 
 
 

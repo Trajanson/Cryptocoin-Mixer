@@ -49,7 +49,8 @@ class MonteCarloSimulation():
                     self.seconds_per_run.append(duration)
 
                 self.is_waiting_at_barrier = True
-                threading.Timer(interval, self.__check_for_run_completion).start()
+                threading.Timer(interval,
+                                self.__check_for_run_completion).start()
             else:
                 if (self.tumbler_is_halted is True and
                         self.transaction_engine_is_halted is True):
