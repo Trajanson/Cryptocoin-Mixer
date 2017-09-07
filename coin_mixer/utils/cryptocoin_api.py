@@ -13,7 +13,7 @@ class CryptocoinAPI():
         url = "https://jobcoin.gemini.com/undecided/create"
         data = {'address': address}
 
-        cryptocoin_response = requests.post(url, data).json()
+        cryptocoin_response = requests.post(url, data)
         return cryptocoin_response
 
     def get_transactions(self):
