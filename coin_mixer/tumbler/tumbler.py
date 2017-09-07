@@ -13,6 +13,7 @@ class Tumbler(object):
 
     def operate(self):
         self.__generate_transactions()
+        self.__pull_addresses_into_ecosystem()
 
     def select_baseline_values(self, num_to_select, for_new_addresses=False):
         total_value_in_ecosystem = self.db.total_value_in_ecosystem()
@@ -34,13 +35,18 @@ class Tumbler(object):
         num_client_output = (
             self.db.total_num_client_output_addresses_in_ecosystem())
 
-        num_fully_active_addresses = (num_addresses_in_ecosystem -
-                                      num_compromised - num_client_output)
+        num_fully_active_addresses = ((num_addresses_in_ecosystem -
+                                      num_compromised) - num_client_output)
 
         node_multiplier = (1.0 * num_fully_active_addresses /
                            HyperParameters.NUM_INITIAL_ADDRESSES)
 
         probability_of_increase = (1 - (1 / (1 + np.exp(-node_multiplier))))
+        print("num_addresses_in_ecosystem", num_addresses_in_ecosystem)
+        print("num_compromised", num_compromised)
+        print("num_client_output", num_client_output)
+        print("num_fully_active_addresses", num_fully_active_addresses)
+        print("HyperParameters.NUM_INITIAL_ADDRESSES", HyperParameters.NUM_INITIAL_ADDRESSES)
 
         if num_fully_active_addresses < HyperParameters.NUM_INITIAL_ADDRESSES:
             self.__pull_address_into_ecosystem()
@@ -48,8 +54,22 @@ class Tumbler(object):
             self.__pull_address_into_ecosystem()
 
     def __pull_address_into_ecosystem(self):
-        self.cryptocoin_handler.selectNewAddressName()
+        address_name = self.cryptocoin_handler.select_new_address_name()
+        baseline = self.select_baseline_values(1, True)[0]
 
+        assert isinstance(baseline, float)
+        print("***************************************************")
+        print("***************************************************")
+        print(f"{address_name} has been pulled into the ecosystem")
+        print("***************************************************")
+        print("***************************************************")
+
+        self.db.store_new_address(address_name, baseline, value=0,
+                                  isOnlyDecreasing=False,
+                                  isOnlyIncreasing=False,
+                                  isForClientInput=False,
+                                  isForClientOutput=False,
+                                  max_value=float("inf"))
 
     def __generate_transactions(self):
         transacting_addresses = self.__generate_transaction_addresses()

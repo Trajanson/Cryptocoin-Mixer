@@ -30,7 +30,7 @@ class InputMonitor(object):
 
     def __push_coins_into_ecosystem(self, target_data):
         input_address = target_data['address']
-        new_ecosystem_address = self.cryptocoin_handler.selectNewAddressName()
+        new_ecosystem_address = self.cryptocoin_handler.select_new_address_name()
         value = target_data['target_goal']
         self.cryptocoin_handler.send_value(input_address,
                                            new_ecosystem_address,
@@ -45,7 +45,8 @@ class InputMonitor(object):
         target_goal = target_data['target_goal']
 
         address = target_data['address']
-        address_balance = self.cryptocoin_handler.getBalanceAtAddress(address)
+        address_balance = (
+            self.cryptocoin_handler.get_balance_at_address(address))
 
         return address_balance >= target_goal
 

@@ -7,12 +7,15 @@ class ClientOperator(object):
         self.input_monitor = input_monitor
         self.output_monitor = output_monitor
 
-    def add_request(self, input_address, output_addresses, request_value):
+    def add_request(self, input_address, output_addresses, request_value,
+                    user):
+        assert(isinstance(output_addresses, list))
+
         self.input_monitor.add_target(input_address, request_value)
 
         for allocation in self.__allocate(output_addresses, request_value):
             address, goal_value = allocation
-        self.output_monitor.add_target(address, goal_value)
+        self.output_monitor.add_target(address, goal_value, user)
 
     def __allocate(self, output_addresses, request_value):
         """
@@ -21,7 +24,6 @@ class ClientOperator(object):
         :rtype: [(String, Int)] - [(Address, goal_value)]
         """
         allocations = [[address, 0] for address in output_addresses]
-
         a = range(len(allocations))
         size = len(allocations)
         for address_index in np.random.choice(a, size, replace=True):

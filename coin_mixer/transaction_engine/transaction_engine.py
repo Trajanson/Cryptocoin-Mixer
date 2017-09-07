@@ -15,15 +15,21 @@ class TransactionEngine(object):
 
         """
         TRANSACTION STRUCTURE:
-            {first_address: address,
-             second_address: address,
-             timestamp: timestamp
+            {'first_address': Address,
+             'second_address': Address,
+             'timestamp': timestamp
             }
         """
         self.upcoming_transactions = []
 
-    def add(self, first_address, second_address):
-        execution_time = self.__get_transaction_execution_time()
+    def add(self, first_address, second_address, execution_time=None):
+        """
+        :type first_address: Address
+        :type second_address: Address
+        :rtype: None
+        """
+        if execution_time is None:
+            execution_time = self.__get_transaction_execution_time()
         transaction = self.__form_transaction(first_address, second_address,
                                               execution_time)
         self.__insert_transaction_to_queue(transaction)
@@ -44,24 +50,38 @@ class TransactionEngine(object):
             self.__execute_transaction(transaction)
 
     def __execute_transaction(self, transaction):
-        first_address = transaction['first_address']
-        second_address = transaction['second_address']
+        """
+        :type transaction: {TRANSACTION} - see above
+        :rtype: None
+        """
+        first_address_old_data = transaction['first_address']
+        second_address_old_data = transaction['second_address']
 
-        first_address_data = self.db.get_address_data(first_address)
-        second_address_data = self.db.get_address_data(first_address)
+        first_address_name = first_address_old_data.address
+        second_address_name = second_address_old_data.address
+
+        first_address_data = self.db.get_address_data_if_exists(
+            first_address_name)
+        second_address_data = self.db.get_address_data_if_exists(
+            second_address_name)
+
+        if first_address_data is None or second_address_data is None:
+            return None
 
         address_has_been_removed = False
         if first_address_data.should_be_removed_from_ecosystem():
-            self.__remove_address_from_ecosystem(first_address)
+            self.__remove_address_from_ecosystem(first_address_name)
             address_has_been_removed = True
         if second_address_data.should_be_removed_from_ecosystem():
-            self.__remove_address_from_ecosystem(second_address)
+            self.__remove_address_from_ecosystem(second_address_name)
             address_has_been_removed = True
 
         if address_has_been_removed is False:
             transfer = self.transaction_strategy.determine_transfer(
                 first_address_data, second_address_data)
             if transfer is not None:
+                print("transfer: (sender, receiver, transfer_value)")
+                print("transfer", transfer)
                 self.__execute_transfer(transfer)
 
     def __execute_transfer(self, transfer):

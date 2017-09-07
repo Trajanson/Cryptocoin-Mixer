@@ -16,6 +16,7 @@ from coin_mixer.output_monitor.output_monitor import OutputMonitor
 
 from coin_mixer.bootstrapper import run_bootstrapper
 
+
 class BootstrapperTestCase(unittest.TestCase):
 
     def setUp(self):

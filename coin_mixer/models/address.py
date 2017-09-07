@@ -8,22 +8,25 @@ class Address(object):
                  isForClientOutput=False, hasBeenCompromised=False,
                  maxValue=float("inf")):
 
+        adr = address
         if balance is None:
-            raise ValueError('Address balance is missing')
-        if int(balance) < 0:
-            raise ValueError('Address balance is negative')
+            raise ValueError(f'Address balance at {adr} is missing')
+        if int(balance.decode('utf-8')) < 0:
+            bal = balance.decode('utf-8')
+            raise ValueError(
+                f'Address balance at {adr} is negative with a value of {bal}')
         if baseline is None:
-            raise ValueError('Address baseline is missing')
+            raise ValueError(f'Address baseline at {adr} is missing')
 
         self.address = str(address)
-        self.balance = int(balance)
-        self.baseline = float(baseline)
+        self.balance = int(balance.decode('utf-8'))
+        self.baseline = float(baseline.decode('utf-8'))
         self.isOnlyDecreasing = bool(isOnlyDecreasing)
         self.isOnlyIncreasing = bool(isOnlyIncreasing)
         self.isForClientInput = bool(isForClientInput)
         self.isForClientOutput = bool(isForClientOutput)
         self.hasBeenCompromised = bool(hasBeenCompromised)
-        self.maxValue = float(maxValue)
+        self.maxValue = float(maxValue.decode('utf-8'))
 
     def calculate_charge(self):
         return (self.balance - self.baseline) / self.baseline

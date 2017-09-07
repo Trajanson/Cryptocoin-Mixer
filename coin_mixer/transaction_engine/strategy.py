@@ -51,7 +51,7 @@ class TransactionStrategy(object):
         """
         :type first_address_data: Address
         :type second_address_data: Address
-        :rtype: range(int)
+        :rtype: [int]
         """
         first_address_max_payout = first_address_data.balance
         second_address_max_payout = second_address_data.balance
@@ -61,7 +61,23 @@ class TransactionStrategy(object):
         if second_address_data.isOnlyIncreasing:
             second_address_max_payout = 0
 
-        return range(-1*first_address_max_payout, second_address_max_payout+1)
+        if first_address_data.maxValue < float("inf"):
+            first_address_max_accept = (int(first_address_data.maxValue) -
+                                        first_address_data.balance)
+            second_address_max_payout = min(second_address_max_payout,
+                                            first_address_max_accept)
+
+        if second_address_data.maxValue < float("inf"):
+            second_address_max_accept = (int(second_address_data.maxValue) -
+                                         second_address_data.balance)
+            first_address_max_payout = min(first_address_max_payout,
+                                           second_address_max_accept)
+
+        rnge = range(-1*first_address_max_payout, second_address_max_payout+1)
+        print(f"first_address_max_payout: {first_address_max_payout}")
+        print(f"second_address_max_payout: {second_address_max_payout}")
+        print("rnge", rnge)
+        return list(rnge)
 
     @staticmethod
     def __organize_transfer(first_address_data, second_address_data,
@@ -75,8 +91,14 @@ class TransactionStrategy(object):
         first_address_name = first_address_data.address
         second_address_name = second_address_data.address
         if transfer_value < 0:
-            return (first_address_name, second_address_name, transfer_value)
+            print("organized transfer: (sender, receiver, transfer_value)")
+            print("transfer", (first_address_name, second_address_name,
+                    abs(transfer_value)))
+            return (first_address_name, second_address_name,
+                    abs(transfer_value))
         elif transfer_value == 0:
             return None
         if transfer_value > 0:
+            print("organized transfer: (sender, receiver, transfer_value)")
+            print("transfer", (second_address_name, first_address_name, transfer_value))
             return (second_address_name, first_address_name, transfer_value)

@@ -19,6 +19,7 @@ class DatabaseHandler(object):
     """
     def store_new_client_output_address(self, address, baseline_value,
                                         value, max_value):
+        assert baseline_value is not None
         self.store_new_address(address, baseline_value, value,
                                isOnlyDecreasing=False, isOnlyIncreasing=True,
                                isForClientInput=False, isForClientOutput=True,
@@ -27,6 +28,7 @@ class DatabaseHandler(object):
     def store_new_decreasing_address(self, address, baseline_value, value=0,
                                      isForClientInput=False,
                                      isForClientOutput=False):
+        assert baseline_value is not None
         self.store_new_address(address, baseline_value, value,
                                isOnlyDecreasing=True, isOnlyIncreasing=False,
                                isForClientInput=isForClientInput,
@@ -35,6 +37,7 @@ class DatabaseHandler(object):
     def store_new_increasing_address(self, address, baseline_value, value=0,
                                      isForClientInput=False,
                                      isForClientOutput=False):
+        assert baseline_value is not None
         self.store_new_address(address, baseline_value, value,
                                isOnlyDecreasing=False, isOnlyIncreasing=True,
                                isForClientInput=isForClientInput,
@@ -44,6 +47,7 @@ class DatabaseHandler(object):
                           isOnlyDecreasing=False, isOnlyIncreasing=False,
                           isForClientInput=False, isForClientOutput=False,
                           max_value=float("inf")):
+        assert baseline_value is not None and baseline_value != ""
         if isOnlyDecreasing is True and isOnlyIncreasing is True:
             raise ValueError('Address cannot be increasing and decreasing')
 
@@ -56,6 +60,9 @@ class DatabaseHandler(object):
         addressHash = {schema.FIELD_BALANCE: value,
                        schema.FIELD_BASELINE: baseline_value,
                        schema.FIELD_MAX_VALUE: max_value}
+
+        if len(address) != 10:
+            raise ValueError(f'Address {address} tried to be added')
 
         pipe = self.db.pipeline()
 
@@ -70,15 +77,20 @@ class DatabaseHandler(object):
 
         if isForClientInput is True:
             pipe.sadd(schema.SET_CLIENT_INPUT, address)
-        else:
+        elif isForClientOutput is True:
             pipe.sadd(schema.SET_CLIENT_OUTPUT, address)
 
         pipe.execute()
 
     def remove_address_from_ecosystem(self, address):
-        value_at_address = self.db.hget(address, schema.FIELD_BALANCE) or 0
-        is_output_address = self.db.sismember(schema, schema.SET_CLIENT_OUTPUT,
+        value_at_address = self.db.hget(address, schema.FIELD_BALANCE)
+        is_output_address = self.db.sismember(schema.SET_CLIENT_OUTPUT,
                                               address)
+
+        if value_at_address is None:
+            value_at_address = 0
+        else:
+            value_at_address = int(value_at_address.decode('utf-8'))
 
         if math.floor(value_at_address) > 0 and is_output_address is False:
             raise ValueError('Cannot remove an internal address with coins')
@@ -96,7 +108,13 @@ class DatabaseHandler(object):
 
     # NOTE: increase_in_value can be positve or negative
     def increment_value_at_address(self, address, increase_in_value):
+        print("-----")
+        print("address at increment location", address)
+        print("start value at address: ", self.db.hget(address, schema.FIELD_BALANCE))
+        print("increase_in_value at increment location", increase_in_value)
         self.db.hincrby(address, schema.FIELD_BALANCE, increase_in_value)
+        print("end value at address: ", self.db.hget(address, schema.FIELD_BALANCE))
+        print("-----")
 
     def total_value_in_ecosystem(self):
         return int(self.db.get(schema.KEY_TOTAL_BALANCE))
@@ -117,15 +135,30 @@ class DatabaseHandler(object):
             self.db.flushdb()
 
     def get_random_ecosystem_addresses(self, num_addresses):
+        """
+        :type num_addresses: int
+        :rtype: [Address]
+        """
         addresses = self.db.srandmember(schema.SET_ECOSYSTEM, num_addresses)
-        return list(map(lambda address: self.get_address_data(address),
-                        addresses))
+        addresses = list(map(lambda address: address.decode('utf-8'),
+                             addresses))
+
+        randoms = list(map(lambda address: self.get_address_data(address),
+                           addresses))
+        return randoms
 
     def mark_address_as_compromised(self, address):
         pipe = self.db.pipeline()
         pipe.sadd(schema.SET_ONLY_DECREASING, address)
         pipe.sadd(schema.SET_COMPROMISED, address)
         pipe.execute()
+
+    def get_address_data_if_exists(self, address):
+        exists = self.db.sismember(schema.SET_ECOSYSTEM, address)
+        if not exists:
+            return None
+        else:
+            return self.get_address_data(address)
 
     def get_address_data(self, address):
         pipe = self.db.pipeline()
