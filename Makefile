@@ -16,4 +16,4 @@ build-docker:
 	docker build -t cyrptocoin_mixer .
 
 run-docker:
-	docker run -it -p 80:5000 cyrptocoin_mixer
+	docker run -it -p 8080:5000 cyrptocoin_mixer
