@@ -26,7 +26,7 @@ Antagonists can use the service to discover the input and output addresses and, 
 > ***This is the approach taken by this Mixer.***
 
 ###### Description:
-In this approach, transactions flow through the Mixer in stochastic "mean-reverting random-walk" patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transactions in the external system.
+In this approach, transactions flow through the Mixer in stochastic "mean-reverting random-walk" patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transactions in the external system. This is the approach taken by this Mixer.
 
 An iterative improvement on this design may be to have multiple Tumbler eco-systems that rotate among input and output nodes. This would be roughly similar to the conduct of Casinos that rotate multiple decks of playing cards to diminish the threat of card counters.
 
