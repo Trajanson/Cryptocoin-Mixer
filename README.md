@@ -23,7 +23,7 @@ In this approach, transactions can be mapped to a DAG (directed acyclic graph). 
 Antagonists can use the service to discover the input and output addresses and, by following the DAG, discover the other addresses within the hidden layers. Any addresses that immediately receive coins from a compromised address are known to have used the service. Temporal analysis can also be indicative of where coins from the input node 'disappeared to'.
 
 #### Intermediate Approach: The Tumbler
-***This is the approach taken by this Mixer.***
+> ***This is the approach taken by this Mixer.***
 
 ###### Description:
 In this approach, transactions flow through the Mixer in stochastic "mean-reverting random-walk" patterns which contain cycles. To combat antagonists who would use the system to discover addresses within the system, compromised addresses are identified and phased out as new addresses are phased in. Coins taken into the system are not permitted to flow in a straight line to an output address. The addresses within the Mixer form an ecosystem that is intended to mirror the appearance of transactions in the external system.
