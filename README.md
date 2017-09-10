@@ -46,7 +46,7 @@ In this approach, many users maintain permanent accounts with the Mixer, thus ne
 
 Users who choose to maintain an account with the Mixer reserve a private account identity with the Mixer that is known only to the user and the Mixer. Through this private identity, the Mixer can regularly rotate new addresses to the user, who stores the majority of his or her wealth not in a private cryptocoin address but within the single address of the Mixer. In the extreme, the Mixer can create and deposit coins into new single-use cryptocoin addresses for every individual user transaction.
 
-The Mixer, which now operates more in the manner of a bank, productively allocates the capital wealth stored within its address. The evolution in branding and context extirpates the need for users to hide that cryptocoins have passed through the Mixer.
+The Mixer, which now operates more in the manner of a banking institution, productively allocates the capital wealth stored within its address. The evolution in branding and context extirpates the need for users to hide that cryptocoins have passed through the Mixer.
 
 Active participation in the Cryptocoin spot and futures markets hedges the Mixer against the volatility of US Dollar-Cryptocurrency exchange rates. [Read more about spot–future parity](https://en.wikipedia.org/wiki/Spot%E2%80%93future_parity).
 
