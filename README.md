@@ -53,7 +53,7 @@ Active participation in the Cryptocoin spot and futures markets hedges the Mixer
 
 
 ###### Deficiencies:
-This approach requires substantial liquidity to maintain low transactional costs. Furthermore, significant institutional trust is required to attain client confidence in the Mixer and in the Mixer's ability and desire to preserve the confidentiality of its user's data.
+This approach requires substantial liquidity to maintain low transactional costs. Furthermore, significant institutional trust is required to attain client confidence in the Mixer and in the Mixer's ability and desire to preserve the confidentiality of its user's data. Security regarding the user's private identity authentication becomes its own concern.
 
 
 
