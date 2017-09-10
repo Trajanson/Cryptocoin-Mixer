@@ -8,7 +8,7 @@ A Cryptocoin Mixer is a tool used to obscure history and ownership of cryptocoin
 
 The lack of account privacy in some cryptocurrencies could be undermining to potential adopters who are resultantly deterred from using the currencies. Users similarly would like to maintain anonymity from antagonists and to secure privacy in their personal transactions. These concerns are remedied by the use of a properly functioning Cryptocoin Mixer.
 
-To use a Mixer, users submit their coins into the black-box process of the Mixer and have their coins arrive untraceably into a number (preferably more than one) of uncompromised accounts identified by the user. This Cryptocin Mixer is one such implementation of the black-box process.
+To use a Mixer, users submit their coins into the black-box process of the Mixer and have their coins arrive untraceably into a number (preferably more than one) of uncompromised accounts identified by the user. This Cryptocin Mixer is one such implementation of the black-box mixing process.
 
 ## Strategy
 
