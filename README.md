@@ -20,7 +20,7 @@ The theme of this Cryptocoin Mixer is **obfuscation and deception**.
 In this approach, transactions can be mapped to a DAG (directed acyclic graph). Transactions flow in one direction from the input address, through layers of nodes in the Mixer and ultimately to the output address.
 
 ###### Deficiencies:
-Antagonists can use the service to discover the input and output addresses and by following the DAG, discover the other addresses within the hidden layers. Any addresses that immediately receive coins from a compromised address are known to have used the service. Temporal analysis can also be indicative of where coins from the input node 'disappeared to'.
+Antagonists can use the service to discover the input and output addresses and, by following the DAG, discover the other addresses within the hidden layers. Any addresses that immediately receive coins from a compromised address are known to have used the service. Temporal analysis can also be indicative of where coins from the input node 'disappeared to'.
 
 #### Intermediate Approach: The Tumbler
 
