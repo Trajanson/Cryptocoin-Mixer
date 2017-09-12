@@ -44,7 +44,7 @@ A significant disadvantage of this approach is the cost of capital tied up in th
 ###### Description:
 In this approach, many users maintain permanent accounts with the Mixer, thus negating the risk of temporal analysis of deposits and withdrawals.
 
-Users who choose to maintain an account with the Mixer reserve a private account identity with the Mixer that is known only to the user and the Mixer. Through this private identity, the Mixer can regularly rotate new addresses to the user, who stores the majority of his or her wealth not in a private cryptocoin address but within the single address of the Mixer. In the extreme, the Mixer can create and deposit coins into new single-use cryptocoin addresses for every individual user transaction.
+Users who choose to maintain an account with the Mixer reserve a private account identity with the Mixer that is known only to the user and to the Mixer. Through this private identity, the Mixer can regularly rotate new addresses to the user, who stores the majority of his or her wealth not in a private cryptocoin address but within the single address of the Mixer. In the extreme, the Mixer can create and deposit coins into new single-use cryptocoin addresses for every individual user transaction.
 
 The Mixer, which now operates more in the manner of a banking institution, productively allocates the capital wealth stored within its address. The evolution in branding and context extirpates the need for users to hide that cryptocoins have passed through the Mixer.
 
