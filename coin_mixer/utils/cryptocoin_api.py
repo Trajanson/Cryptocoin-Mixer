@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import requests
+from coin_mixer.utils.interface_cryptocoin_api import InterfaceCryptocoinAPI
 
 
-class CryptocoinAPI():
+class CryptocoinAPI(InterfaceCryptocoinAPI):
     def get_address_info(self, address):
         url = "http://jobcoin.gemini.com/undecided/api/addresses/"
         url += address

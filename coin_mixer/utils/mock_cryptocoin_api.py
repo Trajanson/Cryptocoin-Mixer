@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import time
 
+from coin_mixer.utils.interface_cryptocoin_api import InterfaceCryptocoinAPI
 
-class MockCryptocoinAPI(object):
+
+class MockCryptocoinAPI(InterfaceCryptocoinAPI):
     def __init__(self):
         self.addresses = {}
         self.transactions = []
